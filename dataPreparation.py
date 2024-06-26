@@ -30,7 +30,7 @@ def get_events_df(filepath='happenings.json'):
 #print(get_events_df())
 
 
-def prepare_data(filepath = "combined.csv"):
+def prepare_data(filepath = "combined2.csv", filepath_policies = "Policy_Weekly_Extended.csv"):
     data = pd.read_csv(filepath, na_values='-')
     data = data.fillna(0)
 
@@ -47,9 +47,10 @@ def prepare_data(filepath = "combined.csv"):
     data["Zweitimpfung_All"] = data.groupby(["Age"])["Zweitimpfung"].cumsum()
     data["Booster_All"] = data.groupby(["Age"])["Booster"].cumsum()
 
-
+    policies = pd.read_csv(filepath_policies)
     #print(data)
+    #print(policies)
 
-    return data
+    return data,policies
 
-#print(prepare_data("combined2.csv"))
+#print(prepare_data())
