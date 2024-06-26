@@ -3,8 +3,16 @@ import plotly
 import plotly.graph_objs as go
 import dataPreparation as dp
 
+policy_dict = {"Government Response Index":"GovernmentResponseIndex_WeightedAverage",
+               "Economic Support Index":"EconomicSupportIndex",
+               "Containment Health Index" : "ContainmentHealthIndex_WeightedAverage",
+               "Stringency Index":"StringencyIndex_WeightedAverage",
+               }
 
-def get_death_cases_graph(data, year, startweek=1, endweek=52, age="gesamt", lookback=5):
+value_to_plot_dict = {"Hospi_Cases" : "Hospitalisierung",
+                      "Covid_Cases" : "Covidfälle"}
+def get_death_cases_graph(data, policies, year, startweek=1, endweek=52, age="gesamt", lookback=5, policy_type = "Government Response Index"):
+
     data_filtered = data.query("Year == @year and Week >= @startweek and Week <= @endweek and Age == @age")
     lookback_data = data.query(
         "Year < @year and Year >= @year-@lookback and Week >= @startweek and Week <= @endweek and Age == @age")
@@ -12,6 +20,10 @@ def get_death_cases_graph(data, year, startweek=1, endweek=52, age="gesamt", loo
     expected_deaths = lookback_data.groupby(["Week"]).agg({"Deaths_Total": ["mean", "std"]}).reset_index()
     expected_deaths["Deaths_Total_Low"] = expected_deaths.Deaths_Total["mean"] - expected_deaths.Deaths_Total["std"]
     expected_deaths["Deaths_Total_High"] = expected_deaths.Deaths_Total["mean"] + expected_deaths.Deaths_Total["std"]
+
+    policies_filtered = policies.query("Year == @year and Week >= @startweek and Week <= @endweek")
+    policy_type_df_name = policy_dict[policy_type]
+    #print(policy_type_df_name)
 
     # print(data_filtered)
     # print(lookback_data)
@@ -58,10 +70,37 @@ def get_death_cases_graph(data, year, startweek=1, endweek=52, age="gesamt", loo
         showlegend=False
     ))
 
-    fig.update_layout(title=f"Sterbefälle in {year} von Woche {startweek} bis {endweek}({age})",
+    #print(policies_filtered["GovernmentResponseIndex_Average"])
+    #print("ficken")
+    fig.add_trace(go.Scatter(
+        x=policies_filtered["Week"],
+        y=policies_filtered[str(policy_type_df_name)],
+        yaxis='y2',
+        name=policy_type,
+    ))
+
+    fig.update_layout(title=f"Sterbefälle {year}, Woche {startweek} - {endweek}({age})",
                       title_x=0.5,
-                      xaxis_title="Woche",
-                      yaxis_title="Sterbefälle")
+                      #xaxis_title="Woche",
+                      #yaxis_title="Sterbefälle"
+                      )
+
+    fig.update_layout(
+        legend=dict(orientation="h"),
+        yaxis=dict(
+            title=dict(text="Sterbefälle"),
+            side="left",
+            #range=[0, 250],
+        ),
+        yaxis2=dict(
+            title=dict(text=policy_type),
+            side="right",
+            #range=[0, 2000],
+            overlaying="y",
+            tickmode="sync",
+        ),
+    )
+
 
     return fig
     # fig.show()
@@ -74,21 +113,49 @@ def get_death_cases_graph(data, year, startweek=1, endweek=52, age="gesamt", loo
 # fig.show()
 
 
-def get_covid_line_graph(data, value_to_plot="Covid_Cases", year=2020, startweek=1, endweek=52, age="gesamt"):
+def get_covid_line_graph(data, policies, value_to_plot="Covid_Cases", year=2020, startweek=1, endweek=52, age="gesamt", policy_type = "Government Response Index"):
     data_filtered = data.query("Year == @year and Week >= @startweek and Week <= @endweek and Age == @age").loc[:,
                     ["Week", value_to_plot]]
 
+    policies_filtered = policies.query("Year == @year and Week >= @startweek and Week <= @endweek")
+    policy_type_df_name = policy_dict[policy_type]
+    value_to_plot_name = value_to_plot_dict[value_to_plot]
 
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=data_filtered["Week"],
         y=data_filtered[value_to_plot],
+        name = value_to_plot_name
     ))
 
-    fig.update_layout(title=f"{value_to_plot} in {year} von Woche {startweek} bis {endweek}({age})",
+    fig.add_trace(go.Scatter(
+        x=policies_filtered["Week"],
+        y=policies_filtered[str(policy_type_df_name)],
+        yaxis='y2',
+        name=policy_type,
+    ))
+
+    fig.update_layout(title=f"{value_to_plot_name} {year}, Woche {startweek}-{endweek}({age})",
                       title_x=0.5,
-                      xaxis_title="Woche",
-                      yaxis_title=value_to_plot)
+                      #xaxis_title="Woche",
+                      #yaxis_title=value_to_plot
+                      )
+
+    fig.update_layout(
+        legend=dict(orientation="h"),
+        yaxis=dict(
+            title=dict(text=value_to_plot_name),
+            side="left",
+            # range=[0, 250],
+        ),
+        yaxis2=dict(
+            title=dict(text=policy_type),
+            side="right",
+            range=[0, 100],
+            overlaying="y",
+            tickmode="sync",
+        ),
+    )
 
     #fig.show()
     #print(data_filtered)
@@ -99,3 +166,5 @@ def get_covid_line_graph(data, value_to_plot="Covid_Cases", year=2020, startweek
 #data = dp.prepare_data()
 #print(data)
 #get_covid_line_graph(data, value_to_plot="Inzidenz")
+
+
