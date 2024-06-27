@@ -7,6 +7,7 @@ policy_dict = {"Government Response Index":"GovernmentResponseIndex_WeightedAver
                "Economic Support Index":"EconomicSupportIndex",
                "Containment Health Index" : "ContainmentHealthIndex_WeightedAverage",
                "Stringency Index":"StringencyIndex_WeightedAverage",
+               "Population Vaccinated" : "PopulationVaccinated"
                }
 
 value_to_plot_dict = {"Hospi_Cases" : "Hospitalisierung",
@@ -79,7 +80,7 @@ def get_death_cases_graph(data, policies, year, startweek=1, endweek=52, age="ge
         name=policy_type,
     ))
 
-    fig.update_layout(title=f"Sterbefälle {year}, Woche {startweek} - {endweek}({age})",
+    fig.update_layout(title=f"Sterbefälle {year}, Woche {startweek} - {endweek} ({age})",
                       title_x=0.5,
                       #xaxis_title="Woche",
                       #yaxis_title="Sterbefälle"
@@ -90,12 +91,12 @@ def get_death_cases_graph(data, policies, year, startweek=1, endweek=52, age="ge
         yaxis=dict(
             title=dict(text="Sterbefälle"),
             side="left",
-            #range=[0, 250],
+            range=[0, data.query("Age == @age")["Deaths_Total"].max()],
         ),
         yaxis2=dict(
             title=dict(text=policy_type),
             side="right",
-            #range=[0, 2000],
+            range=[0, 100],
             overlaying="y",
             tickmode="sync",
         ),
@@ -135,7 +136,7 @@ def get_covid_line_graph(data, policies, value_to_plot="Covid_Cases", year=2020,
         name=policy_type,
     ))
 
-    fig.update_layout(title=f"{value_to_plot_name} {year}, Woche {startweek}-{endweek}({age})",
+    fig.update_layout(title=f"{value_to_plot_name} {year}, Woche {startweek}-{endweek} ({age})",
                       title_x=0.5,
                       #xaxis_title="Woche",
                       #yaxis_title=value_to_plot
@@ -146,7 +147,7 @@ def get_covid_line_graph(data, policies, value_to_plot="Covid_Cases", year=2020,
         yaxis=dict(
             title=dict(text=value_to_plot_name),
             side="left",
-            # range=[0, 250],
+            range=[0, data.query("Age == @age")[value_to_plot].max()],
         ),
         yaxis2=dict(
             title=dict(text=policy_type),
