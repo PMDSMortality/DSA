@@ -81,6 +81,7 @@ app.layout = (
                 {'label': 'Containment Health Index', 'value': 'Containment Health Index'},
                 {'label': 'Stringency Index', 'value': 'Stringency Index'},
                 {'label': 'Economic Support Index', 'value': 'Economic Support Index'},
+                {'label': 'Population Vaccinated', 'value': 'Population Vaccinated'},
             ],
             value='Government Response Index',
             inline=True,
