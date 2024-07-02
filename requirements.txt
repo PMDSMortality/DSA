@@ -1,0 +1,11 @@
+pypdf
+langchain
+langchain-community
+chromadb
+pandas
+selenium
+bs4
+numpy
+plotly
+dash
+ipykernel
