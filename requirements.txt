@@ -9,3 +9,5 @@ numpy
 plotly
 dash
 ipykernel
+statsmodels
+nbformat
