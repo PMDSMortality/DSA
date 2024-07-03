@@ -1,3 +1,12 @@
 [submodule "data/COVID-19-Todesfaelle_in_Deutschland"]
 	path = data/COVID-19-Todesfaelle_in_Deutschland
 	url = https://github.com/robert-koch-institut/COVID-19-Todesfaelle_in_Deutschland.git
+[submodule "data/COVID-19_7-Tage-Inzidenz_in_Deutschland"]
+	path = data/COVID-19_7-Tage-Inzidenz_in_Deutschland
+	url = https://github.com/robert-koch-institut/COVID-19_7-Tage-Inzidenz_in_Deutschland.git
+[submodule "data/COVID-19-Hospitalisierungen_in_Deutschland"]
+	path = data/COVID-19-Hospitalisierungen_in_Deutschland
+	url = https://github.com/robert-koch-institut/COVID-19-Hospitalisierungen_in_Deutschland
+[submodule "data/COVID-19-Impfungen_in_Deutschland"]
+	path = data/COVID-19-Impfungen_in_Deutschland
+	url = https://github.com/robert-koch-institut/COVID-19-Impfungen_in_Deutschland
