@@ -1,0 +1,3 @@
+[submodule "data/COVID-19-Todesfaelle_in_Deutschland"]
+	path = data/COVID-19-Todesfaelle_in_Deutschland
+	url = https://github.com/robert-koch-institut/COVID-19-Todesfaelle_in_Deutschland.git
