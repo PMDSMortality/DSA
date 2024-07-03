@@ -30,7 +30,7 @@ def get_events_df(filepath='happenings.json'):
 #print(get_events_df())
 
 
-def prepare_data(filepath = "combined2.csv", filepath_policies = "Policy_Weekly_Extended.csv"):
+def prepare_data(filepath = "./data/combined.csv", filepath_policies = "./data/Policy_Weekly_Extended.csv"):
     data = pd.read_csv(filepath, na_values='-')
     data = data.fillna(0)
 
