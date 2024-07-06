@@ -1,7 +1,7 @@
 # DSA
 
-## Install
-with Miniconda:
+## Installation
+mit Conda:
 ```
 conda create --prefix ./env python=3.10
 ```
@@ -11,6 +11,15 @@ conda activate ./env
 ```
 pip install -r requirements.txt
 ```
+## Benutzung
+In ```aufbereitung.ipynb``` wurden alle Daten in ein gemeinsames ```data/combined.csv``` umgewandelt. Die Policy Daten wurden in ```data/Policy_Weekly_Extended.csv``` aggregiert. Für die Deskriptive Analyse wird ```exploration.ipynb``` verwendet. 
+
+Um das Corona Dashboard zu verwenden muss ```corona_dashboard_skript.py``` ausgeführt werden.
+
+Die statistischen Modelle wurden in ```models.ipynb``` implementiert.
+
+Der ChatBot wurde in ```chat_bot.ipynb``` implementiert.
+
 
 ## Links zu Covid Maßnahmen
 https://www.bundesgesundheitsministerium.de/coronavirus/chronik-coronavirus
